@@ -11,6 +11,9 @@ moves = {
     '.': {}
 }
 
+# Set of symbols to indicate inside and outside
+insides = {'|', '7', 'F'}
+
 def visit(start, graph):
     cnt = 0
     m, n = len(graph), len(graph[0])
@@ -25,14 +28,15 @@ def visit(start, graph):
             for a, b in moves[graph[x][y]]:
                 xa, yb = x+a, y+b
                 if -1<xa<m and -1<yb<n and (xa, yb) not in visited and (-a, -b) in moves[graph[xa][yb]]:
+                    if (x, y) == start and (a, b) == (0, 1):
+                        insides.add('S')
                     new_queue.add((xa, yb))
         queue = new_queue
 
-    down = {'|', '7', 'F'}
     for i in range(m):
         is_in = False
         for j in range(n):
-            if graph[i][j] in down and (i, j) in visited:
+            if graph[i][j] in insides and (i, j) in visited:
                 is_in = not is_in
             else:
                 if is_in and (i, j) not in visited:
