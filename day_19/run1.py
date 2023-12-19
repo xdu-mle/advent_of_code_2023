@@ -16,9 +16,12 @@ with open('input.txt', 'r', encoding = 'utf-8') as f:
                 if ':' in rule:
                     s, target = rule.split(':')
                     # (part, operator, number, target)
-                    pipelines[pid].append([s[0], s[1:2], int(s[2:]), target])
+                    if s[1:2] == '<':
+                        pipelines[pid].append([s[0], -math.inf, int(s[2:]), target])
+                    else:
+                        pipelines[pid].append([s[0], int(s[2:]), math.inf, target])
                 else:
-                    pipelines[pid].append(rule)
+                    pipelines[pid].append([None, rule])
         else:
             break
     # part 2 execute workflows
@@ -32,21 +35,10 @@ with open('input.txt', 'r', encoding = 'utf-8') as f:
             pid = 'in'
             while True:
                 rules = pipelines[pid]
-                target = None
                 for rule in rules:
-                    if isinstance(rule, str):
-                        target = rule
+                    if rule[0] is None or rule[1] < conditions[rule[0]] < rule[2]:
+                        pid = rule[-1]
                         break
-                    else:
-                        x = rule[0]
-                        v = conditions[x]
-                        if rule[1] == '<' and v < rule[2]:
-                            target = rule[-1]
-                            break
-                        elif rule[1] == '>' and v > rule[2]:
-                            target = rule[-1]
-                            break
-                pid = target
                 if pid in ('A', 'R'):
                     break
             if pid == 'A':
