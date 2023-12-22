@@ -1,3 +1,6 @@
+# This solution is applicable to input that grow frontiers in a repeatable pattern
+# if the pattern is not repeatable, the solution will be time consuming as brute force method
+# please try input_bad.txt to see a bad case
 moves =[(0, 1), (1, 0), (0, -1), (-1, 0)]
 
 def bfs(start, smap, iter=26501365):
