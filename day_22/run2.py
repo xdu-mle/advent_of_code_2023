@@ -6,7 +6,7 @@ def intersect(rect1, rect2):
 
 #print(intersect((1, 0, 1, 2), (0, 0, 2, 0)))
 
-def dfs(cid, supports, supported):
+def bfs(cid, supports, supported):
     cnt = 0
     queue = set([cid])
     while queue:
@@ -62,5 +62,5 @@ with open('input.txt', 'r', encoding = 'utf-8') as f:
         if len(sd) == 1:
             not_disintegrated.add(list(sd)[0])
     for cid in not_disintegrated:
-        cnt += dfs(cid, supports, copy.deepcopy(supported))
+        cnt += bfs(cid, supports, copy.deepcopy(supported))
     print(cnt)
